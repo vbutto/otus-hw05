@@ -29,57 +29,74 @@ variable "ssh_public_key_path" {
   default     = "~/.ssh/id_rsa.pub"
 }
 
-# IP-адрес (или диапазон), с которого разрешён доступ по SSH на frontend
 variable "my_ip" {
-  description = "Your external IP for SSH access (CIDR)"
+  description = "Your external IP in CIDR (e.g., 203.0.113.5/32). Empty string means 'open to all' in examples."
   type        = string
-  default     = "0.0.0.0/0" # замените на свой реальный IP/32
+  default     = ""
 }
 
-# CIDR для всей VPC и подсетей
-variable "vpc_cidr" {
-  description = "CIDR for VPC"
+variable "bucket_name" {
+  description = "S3 bucket name"
   type        = string
-  default     = "10.10.0.0/16"
 }
 
-variable "subnet_front_cidr" {
-  description = "CIDR for frontend subnet (public)"
+
+variable "cluster_name" {
+  description = "Cluster name"
   type        = string
-  default     = "10.10.10.0/24"
+  default     = "my-pg-cluster"
 }
 
-variable "frontend_ip" {
-  description = "Static internal IP for frontend VM (must belong to subnet_front_cidr)"
+variable "cluster_description" {
+  description = "Cluster description"
   type        = string
-  default     = "10.10.10.10"
+  default     = "PG cluster for tests"
 }
 
-variable "subnet_back_cidr" {
-  description = "CIDR for backend subnet (private)"
+variable "pg_version" {
+  description = "PostgreSQL version"
   type        = string
-  default     = "10.10.20.0/24"
+  default     = "15"
 }
 
-variable "backend_ip" {
-  description = "Static internal IP for backend VM (must belong to subnet_back_cidr)"
+variable "pg_preset" {
+  description = "Host class"
   type        = string
-  default     = "10.10.20.10"
+  default     = "s3-c2-m8"
 }
 
-variable "subnet_db_cidr" {
-  description = "CIDR for database subnet (private)"
+variable "disk_type" {
+  description = "Disk type"
   type        = string
-  default     = "10.10.30.0/24"
+  default     = "network-ssd"
 }
 
-variable "db_ip" {
-  description = "Static internal IP for db VM (must belong to subnet_db_cidr)"
-  type        = string
-  default     = "10.10.30.10"
+variable "db_disk_gb" {
+  description = "Disk size, GB"
+  type        = number
+  default     = 20
 }
 
-variable "bastion_ip" {
-  description = "Static internal IP for bastion VM"
+variable "enable_public_ip" {
+  description = "Assign public IP to host"
+  type        = bool
+  default     = true
+}
+
+variable "db_name" {
+  description = "Database name"
   type        = string
+  default     = "appdb"
+}
+
+variable "db_user" {
+  description = "Database user"
+  type        = string
+  default     = "app"
+}
+
+variable "db_password" {
+  description = "Database password"
+  type        = string
+  sensitive   = true
 }
